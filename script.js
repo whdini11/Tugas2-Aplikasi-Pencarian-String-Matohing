@@ -84,12 +84,23 @@ function search() {
     result.innerHTML = "";
 
     mahasiswa.forEach(m => {
-        if (match(m.nama, keyword)) {
-            result.innerHTML += `<li>${m.nim} - ${m.nama} (${m.prodi})</li>`;
-        }
-    });
-
-    if (result.innerHTML === "") {
-        result.innerHTML = "<li>Data tidak ditemukan</li>";
+    if (
+      match(m.nama, keyword) ||
+      match(m.nim, keyword) ||
+      match(m.prodi, keyword) ||
+      match(String(m.semester), keyword)
+    ) {
+      ditemukan = true;
+      result.innerHTML += `
+        <li>
+          <strong>${m.nim}</strong> - ${m.nama}<br>
+          Prodi: ${m.prodi} | Semester: ${m.semester}
+        </li>
+      `;
     }
+  });
+
+  if (!ditemukan) {
+    result.innerHTML = "<li>Data tidak ditemukan</li>";
+  }
 }
